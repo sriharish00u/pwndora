@@ -6,12 +6,14 @@ import Playground from "./components/Playground";
 import CodeReview from "./components/CodeReview";
 import ReportViewer from "./components/ReportViewer";
 import Leaderboard from "./components/Leaderboard";
+import LandingPage from "./components/LandingPage";
 
 export default function App() {
   // Auth state
   const [user, setUser] = useState<{ email: string; displayName: string; role: string } | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [authMode, setAuthMode] = useState<"login" | "register">("login");
+  const [showAuth, setShowAuth] = useState(false);
   const [authEmail, setAuthEmail] = useState("");
   const [authPassword, setAuthPassword] = useState("");
   const [authDisplayName, setAuthDisplayName] = useState("");
@@ -267,92 +269,102 @@ export default function App() {
 
   // ── Login / Register Screen ──
   if (!user) {
-    return (
-      <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col items-center justify-center font-mono">
-        <div className="w-full max-w-sm space-y-6 px-4">
-          <div className="text-center space-y-2">
-            <div className="p-3 bg-gradient-to-br from-amber-500 to-red-600 rounded-lg text-zinc-950 font-bold w-fit mx-auto">
-              <Layers className="w-8 h-8" />
-            </div>
-            <h1 className="text-lg font-extrabold tracking-wider text-zinc-100">
-              PWNDORA // VULNERABILITY CHAIN LAB
-            </h1>
-            <p className="text-[10px] text-zinc-500 uppercase tracking-widest">
-              Authentication Required
-            </p>
-          </div>
-
-          <form onSubmit={handleAuth} className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-6 space-y-4">
-            <div className="flex gap-1 border-b border-zinc-800 pb-2">
-              <button
-                type="button"
-                onClick={() => { setAuthMode("login"); setAuthError(""); }}
-                className={`flex-1 text-xs font-mono font-bold uppercase py-1.5 transition-colors cursor-pointer ${
-                  authMode === "login" ? "text-amber-500 border-b-2 border-amber-500" : "text-zinc-500 hover:text-zinc-300"
-                }`}
-              >
-                <Lock className="w-3.5 h-3.5 inline mr-1" /> Sign In
-              </button>
-              <button
-                type="button"
-                onClick={() => { setAuthMode("register"); setAuthError(""); }}
-                className={`flex-1 text-xs font-mono font-bold uppercase py-1.5 transition-colors cursor-pointer ${
-                  authMode === "register" ? "text-amber-500 border-b-2 border-amber-500" : "text-zinc-500 hover:text-zinc-300"
-                }`}
-              >
-                <UserPlus className="w-3.5 h-3.5 inline mr-1" /> Register
-              </button>
-            </div>
-
-            {authMode === "register" && (
-              <input
-                type="text"
-                placeholder="Display Name"
-                value={authDisplayName}
-                onChange={(e) => setAuthDisplayName(e.target.value)}
-                className="w-full bg-zinc-950 border border-zinc-800 rounded px-3 py-2 text-xs font-mono text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-amber-500"
-              />
-            )}
-            <input
-              type="email"
-              placeholder="Email"
-              value={authEmail}
-              onChange={(e) => setAuthEmail(e.target.value)}
-              required
-              className="w-full bg-zinc-950 border border-zinc-800 rounded px-3 py-2 text-xs font-mono text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-amber-500"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={authPassword}
-              onChange={(e) => setAuthPassword(e.target.value)}
-              required
-              className="w-full bg-zinc-950 border border-zinc-800 rounded px-3 py-2 text-xs font-mono text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-amber-500"
-            />
-
-            {authError && (
-              <p className="text-[11px] font-mono text-red-400 bg-red-500/10 border border-red-500/20 rounded px-3 py-2">
-                {authError}
+    if (showAuth) {
+      return (
+        <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col items-center justify-center font-mono">
+          <button
+            onClick={() => setShowAuth(false)}
+            className="absolute top-6 left-6 text-xs font-mono text-zinc-500 hover:text-emerald-400 transition-colors cursor-pointer"
+          >
+            &larr; Back to Home
+          </button>
+          <div className="w-full max-w-sm space-y-6 px-4">
+            <div className="text-center space-y-2">
+              <div className="p-3 bg-gradient-to-br from-emerald-500 to-orange-500 rounded-lg text-zinc-950 font-bold w-fit mx-auto">
+                <Layers className="w-8 h-8" />
+              </div>
+              <h1 className="text-lg font-extrabold tracking-wider text-zinc-100">
+                PWNDORA // VULNERABILITY CHAIN LAB
+              </h1>
+              <p className="text-[10px] text-zinc-500 uppercase tracking-widest">
+                Authentication Required
               </p>
-            )}
+            </div>
 
-            <button
-              type="submit"
-              disabled={authSubmitting}
-              className="w-full bg-amber-500 hover:bg-amber-400 disabled:bg-zinc-800 disabled:text-zinc-600 text-zinc-950 font-bold text-xs font-mono uppercase py-2.5 rounded transition-colors cursor-pointer"
-            >
-              {authSubmitting ? "Authenticating..." : authMode === "login" ? "Access Lab" : "Create Account"}
-            </button>
+            <form onSubmit={handleAuth} className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-6 space-y-4">
+              <div className="flex gap-1 border-b border-zinc-800 pb-2">
+                <button
+                  type="button"
+                  onClick={() => { setAuthMode("login"); setAuthError(""); }}
+                  className={`flex-1 text-xs font-mono font-bold uppercase py-1.5 transition-colors cursor-pointer ${
+                    authMode === "login" ? "text-emerald-400 border-b-2 border-emerald-400" : "text-zinc-500 hover:text-zinc-300"
+                  }`}
+                >
+                  <Lock className="w-3.5 h-3.5 inline mr-1" /> Sign In
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setAuthMode("register"); setAuthError(""); }}
+                  className={`flex-1 text-xs font-mono font-bold uppercase py-1.5 transition-colors cursor-pointer ${
+                    authMode === "register" ? "text-emerald-400 border-b-2 border-emerald-400" : "text-zinc-500 hover:text-zinc-300"
+                  }`}
+                >
+                  <UserPlus className="w-3.5 h-3.5 inline mr-1" /> Register
+                </button>
+              </div>
 
-            <p className="text-[10px] text-zinc-600 text-center">
-              {authMode === "login"
-                ? "Sample: test@pwndora / test@123"
-                : "Create a new operator account"}
-            </p>
-          </form>
+              {authMode === "register" && (
+                <input
+                  type="text"
+                  placeholder="Display Name"
+                  value={authDisplayName}
+                  onChange={(e) => setAuthDisplayName(e.target.value)}
+                  className="w-full bg-zinc-950 border border-zinc-800 rounded px-3 py-2 text-xs font-mono text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500"
+                />
+              )}
+              <input
+                type="email"
+                placeholder="Email"
+                value={authEmail}
+                onChange={(e) => setAuthEmail(e.target.value)}
+                required
+                className="w-full bg-zinc-950 border border-zinc-800 rounded px-3 py-2 text-xs font-mono text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500"
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={authPassword}
+                onChange={(e) => setAuthPassword(e.target.value)}
+                required
+                className="w-full bg-zinc-950 border border-zinc-800 rounded px-3 py-2 text-xs font-mono text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500"
+              />
+
+              {authError && (
+                <p className="text-[11px] font-mono text-red-400 bg-red-500/10 border border-red-500/20 rounded px-3 py-2">
+                  {authError}
+                </p>
+              )}
+
+              <button
+                type="submit"
+                disabled={authSubmitting}
+                className="w-full bg-gradient-to-r from-emerald-500 to-orange-500 hover:from-emerald-400 hover:to-orange-400 disabled:bg-zinc-800 disabled:text-zinc-600 text-zinc-950 font-bold text-xs font-mono uppercase py-2.5 rounded transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(16,185,129,0.2)]"
+              >
+                {authSubmitting ? "Authenticating..." : authMode === "login" ? "Access Lab" : "Create Account"}
+              </button>
+
+              <p className="text-[10px] text-zinc-600 text-center">
+                {authMode === "login"
+                  ? "Sample: test@pwndora / test@123"
+                  : "Create a new operator account"}
+              </p>
+            </form>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+
+    return <LandingPage onShowAuth={() => setShowAuth(true)} />;
   }
 
   // ── Lab Loading Screen ──
