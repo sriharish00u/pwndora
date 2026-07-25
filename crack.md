@@ -53,3 +53,4 @@ Go to **Playground** → Stage 4 privilege escalation.
 Click run. This exfiltrates the executive payroll database.
 
 **Flag:** `FLAG{PR1V_ESC_EXFIL_8830_SUCCESS}`
+
