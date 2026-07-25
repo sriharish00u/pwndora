@@ -43,3 +43,4 @@ All endpoints are namespaced per session ID issued by PWNDORA at container creat
 
 - Slots directly into PWNDORA's existing **web exploitation lab category**, extending it from single-vulnerability challenges to an **advanced multi-stage chaining tier** — positioned for learners preparing for OSCP/PNPT-level engagements.
 - Reuses the same container-orchestration and scoring-service contracts as existing PWNDORA labs, meaning no new platform infrastructure is required to integrate — only a new lab image and manifest entry.
+
