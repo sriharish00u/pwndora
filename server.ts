@@ -419,32 +419,42 @@ const HINT_COSTS = [10, 20, 30];
 app.get("/api/lab/hint/:stageId", requireAuth, async (req: Request, res: Response) => {
   const session = (req as any)._session as SessionState;
   const stageId = parseInt(req.params.stageId);
-  const hintIndex = parseInt(req.query.hintIndex as string) ?? 0;
+  const rawHintIndex = parseInt(req.query.hintIndex as string, 10);
+  const hintIndex = Number.isInteger(rawHintIndex) ? rawHintIndex : 0;
   const stage = STAGES.find((s) => s.id === stageId);
   if (!stage) {
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
     return res.status(404).json({ error: "Stage not found" });
   }
 
   if (hintIndex < 0 || hintIndex >= stage.hints.length) {
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
     return res.status(400).json({ error: "Invalid hint index" });
   }
 
   // Ensure hints are revealed sequentially
   const revealed = session.hintsByStage[stageId] || [];
   if (hintIndex > 0 && !revealed.includes(hintIndex - 1)) {
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
     return res.status(400).json({ error: "You must reveal previous hints first" });
   }
 
   if (!revealed.includes(hintIndex)) {
     revealed.push(hintIndex);
     session.hintsByStage[stageId] = revealed;
-    // Also update hintsUsed for backward compatibility
     if (!session.hintsUsed.includes(stageId)) {
       session.hintsUsed.push(stageId);
     }
+    saveSessionToDB(session).catch(() => {});
     addHackerLog(session, "HACKER", "RECON", `Requested hint ${hintIndex + 1}/3 for Stage ${stageId}: ${stage.name}`, `Hint revealed. Penalty: -${HINT_COSTS[hintIndex]} points.`, "INFO");
   }
 
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+  res.setHeader("Pragma", "no-cache");
+  console.log(`[HINT] stage=${stageId} idx=${hintIndex} returning="${stage.hints[hintIndex]?.slice(0, 60)}"`);
   res.json({
     hint: stage.hints[hintIndex],
     hintIndex,

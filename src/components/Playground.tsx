@@ -76,7 +76,7 @@ export default function Playground({
         const loaded: { text: string; index: number; cost: number }[] = [];
         for (const idx of revealed) {
           try {
-            const res = await fetch(`/api/lab/hint/${activeStage.id}?hintIndex=${idx}`);
+            const res = await fetch(`/api/lab/hint/${activeStage.id}?hintIndex=${idx}`, { cache: "no-store" });
             const data = await res.json();
             if (data.hint) {
               loaded.push({ text: data.hint, index: idx, cost: HINT_COSTS[idx] || 0 });
@@ -97,7 +97,7 @@ export default function Playground({
     setRevealingHint(true);
     setRevealingIndex(hintIndex);
     try {
-      const res = await fetch(`/api/lab/hint/${activeStage.id}?hintIndex=${hintIndex}`);
+      const res = await fetch(`/api/lab/hint/${activeStage.id}?hintIndex=${hintIndex}`, { cache: "no-store" });
       const data = await res.json();
       if (data.hint) {
         setViewedHints((prev) => {
