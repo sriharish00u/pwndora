@@ -58,3 +58,4 @@ Every transition is checked against server-stored state (`stage_progress` table/
 - All stage-gate logic is server-side; the four intentional vulnerabilities are the *only* vulnerabilities — everything else (session handling, container isolation, rate limiting) is hardened.
 - Each learner session runs in an isolated container/network namespace to prevent cross-learner interference.
 - Synthetic data only — no real employee or organisational data is used anywhere in the lab.
+
