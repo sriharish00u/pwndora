@@ -80,3 +80,5 @@ export interface PentestReport {
   recommendations: string[];
   generatedAt: string;
 }
+
+
