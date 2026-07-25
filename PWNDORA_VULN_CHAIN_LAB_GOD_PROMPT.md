@@ -105,3 +105,4 @@ You are building a **deliberately vulnerable, sandboxed, fictional enterprise we
 ## 5. Documentation Standard (apply to every vulnerability in M2–M5)
 
 For each of the 4 vulnerabilities, record: OWASP Top 10 category, MITRE ATT&CK technique ID, CVSS v3.1 base score with the vector string (not just the number), and the exact artifact it produces for the next stage. This feeds directly into M8's report generator — build it as you go, don't leave it for the end.
+
