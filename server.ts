@@ -1093,6 +1093,10 @@ async function startServer() {
   // Connect to MongoDB first
   await connectDB();
 
+  // Serve public directory for static assets (pptx, images, etc.)
+  const publicPath = path.join(process.cwd(), "public");
+  app.use(express.static(publicPath));
+
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
       server: { middlewareMode: true },
