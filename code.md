@@ -5270,7 +5270,7 @@ const HINT_COSTS = [10, 20, 30];
 app.get("/api/lab/hint/:stageId", requireAuth, async (req: Request, res: Response) => {
   const session = (req as any)._session as SessionState;
   const stageId = parseInt(req.params.stageId);
-  const hintIndex = parseInt(req.query.index as string) || 0;
+  const hintIndex = parseInt(req.query.hintIndex as string) ?? 0;
   const stage = STAGES.find((s) => s.id === stageId);
   if (!stage) {
     return res.status(404).json({ error: "Stage not found" });
