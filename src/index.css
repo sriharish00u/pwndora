@@ -12,4 +12,38 @@
   #auditable-report-paper * { color: black !important; }
 }
 
+@keyframes slide-in {
+  0% { opacity: 0; transform: translateY(20px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes spin-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(16,185,129,0.15); }
+  50% { box-shadow: 0 0 35px rgba(249,115,22,0.2); }
+}
+
+.animate-slide-in { animation: slide-in 0.5s ease-out forwards; }
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-spin-slow { animation: spin-slow 30s linear infinite; }
+.animate-spin-reverse { animation: spin-reverse 25s linear infinite; }
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+}
+.animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
 
