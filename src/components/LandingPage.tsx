@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Layers, LogIn, UserPlus, ChevronDown, Sparkles, ShieldCheck, Terminal, Lock } from "lucide-react";
 import SlideCarousel from "./SlideCarousel";
+import PptxViewer from "./PptxViewer";
 
 function useMouseGlow() {
   const ref = useRef<HTMLDivElement>(null);
@@ -196,7 +197,6 @@ export default function LandingPage({ onShowAuth }: { onShowAuth: () => void }) 
   const glowRef = useMouseGlow();
   const hero = useScrollReveal();
   const feat = useScrollReveal();
-  const split = useScrollReveal();
   const [time, setTime] = useState("");
 
   useEffect(() => {
@@ -239,6 +239,31 @@ export default function LandingPage({ onShowAuth }: { onShowAuth: () => void }) 
           </div>
         </div>
       </nav>
+
+      {/* ── VIDEO + PPT SPLIT SECTION (TOP) ── */}
+      <section className="relative z-10 pt-24 pb-12 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Left: YouTube Video */}
+            <div className="relative group rounded-2xl overflow-hidden border border-zinc-800/80 bg-zinc-900/60 hover:border-emerald-500/30 transition-all duration-500">
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-orange-500/5 pointer-events-none z-10" />
+              <iframe
+                src="https://www.youtube.com/embed/RqlHwl9S9oE?autoplay=1&mute=1&loop=1&playlist=RqlHwl9S9oE&controls=1&modestbranding=1&rel=0"
+                className="w-full aspect-video"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+                title="PWNDORA Lab Demo"
+              />
+            </div>
+
+            {/* Right: PPT Embed */}
+            <div className="relative rounded-2xl border border-zinc-800/80 bg-zinc-900/60 hover:border-orange-500/30 transition-all duration-500 overflow-hidden min-h-[420px]">
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-emerald-500/5 pointer-events-none z-10" />
+              <PptxViewer />
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ── HERO SECTION ── */}
       <section
@@ -283,7 +308,7 @@ export default function LandingPage({ onShowAuth }: { onShowAuth: () => void }) 
               <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
             </button>
             <button
-              onClick={() => scrollTo("split-section")}
+              onClick={() => scrollTo("features-section")}
               className="px-8 py-3.5 bg-zinc-800/60 hover:bg-zinc-700/80 border border-zinc-700 hover:border-zinc-500 text-zinc-300 font-bold text-sm rounded-xl transition-all duration-300 cursor-pointer flex items-center gap-2"
             >
               Learn More <ChevronDown className="w-4 h-4" />
@@ -300,7 +325,7 @@ export default function LandingPage({ onShowAuth }: { onShowAuth: () => void }) 
       </section>
 
       {/* ── FEATURES ── */}
-      <section className="relative z-10 py-24 px-6">
+      <section id="features-section" className="relative z-10 py-24 px-6">
         <div
           ref={feat.ref}
           className={`max-w-6xl mx-auto transition-all duration-1000 delay-200 ${
@@ -331,44 +356,6 @@ export default function LandingPage({ onShowAuth }: { onShowAuth: () => void }) 
                 <p className="text-xs text-zinc-500 leading-relaxed">{f.desc}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── SPLIT SECTION: VIDEO + SLIDES ── */}
-      <section id="split-section" className="relative z-10 py-24 px-6">
-        <div
-          ref={split.ref}
-          className={`max-w-7xl mx-auto transition-all duration-1000 delay-100 ${
-            split.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
-        >
-          <h2 className="text-center text-2xl md:text-3xl font-extrabold mb-16">
-            See It In{" "}
-            <span className="bg-gradient-to-r from-orange-400 to-emerald-400 bg-clip-text text-transparent">
-              Action
-            </span>
-          </h2>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Left: Video */}
-            <div className="relative group rounded-2xl overflow-hidden border border-zinc-800/80 bg-zinc-900/60 hover:border-emerald-500/30 transition-all duration-500">
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-orange-500/5 pointer-events-none" />
-              <video
-                src="/video.mp4"
-                className="w-full aspect-video object-cover"
-                autoPlay
-                muted
-                loop
-                controls
-              />
-            </div>
-
-            {/* Right: Slide Carousel */}
-            <div className="relative rounded-2xl border border-zinc-800/80 bg-zinc-900/60 hover:border-orange-500/30 transition-all duration-500 overflow-hidden min-h-[400px]">
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-emerald-500/5 pointer-events-none" />
-              <SlideCarousel onStart={onShowAuth} />
-            </div>
           </div>
         </div>
       </section>
