@@ -98,4 +98,5 @@ export default function Leaderboard({ entries, onRefresh, loading }: Leaderboard
       </div>
     </div>
   );
+
 }
