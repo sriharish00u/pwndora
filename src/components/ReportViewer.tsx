@@ -272,4 +272,5 @@ export default function ReportViewer({ report, onCopyReport, copied }: ReportVie
       </div>
     </div>
   );
+
 }
