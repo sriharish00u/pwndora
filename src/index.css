@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@media print {
+  body { background: white !important; color: black !important; }
+  header, nav, footer, .no-print { display: none !important; }
+  #auditable-report-paper {
+    background: white !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    color: black !important;
+  }
+  #auditable-report-paper * { color: black !important; }
+}

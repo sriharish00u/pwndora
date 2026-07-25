@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: pwndora-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pwndora:
+    build: .
+    container_name: pwndora-lab
+    ports:
+      - "3001:3000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=production
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - OPEN_ROUTER_API=${OPEN_ROUTER_API:-}
+      - SESSION_SECRET=${SESSION_SECRET:-pwndora-docker-secret}
+      - ARTIFACT_SECRET=${ARTIFACT_SECRET:-pwndora-artifact-docker}
+      - MONGODB_URI=mongodb://mongo:27017/pwndora
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/api/lab/settings"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  mongo-data:
+    driver: local
+  pwndora-data:
+    driver: local
